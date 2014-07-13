@@ -1,7 +1,12 @@
 package de.unifrankfurt.informatik.linkedopendata.model;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
+import com.hp.hpl.jena.sparql.util.StringUtils;
+
 public class Entry {
 
+	public String htmlId;
 	public String id;
 	public String lemma;
 	public String parentId;
@@ -21,6 +26,7 @@ public class Entry {
 
 	public void setId(final String id) {
 		this.id = formatId(id);
+		this.htmlId = StringEscapeUtils.escapeHtml(this.id);
 	}
 
 	public void setLatin(final String latin) {

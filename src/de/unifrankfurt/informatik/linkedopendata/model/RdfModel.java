@@ -3,6 +3,8 @@ package de.unifrankfurt.informatik.linkedopendata.model;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
@@ -24,15 +26,48 @@ public class RdfModel {
 		Model model = ModelFactory.createDefaultModel();
 		model.setNsPrefix("g", ns);
 
+		Property hasLemma = model.createProperty(ns + "hasMember");
+		Property title = model.createProperty(ns + "lemma");
+		Property greece = model.createProperty(ns + "greece");
+		Property oldEnglish = model.createProperty(ns + "oldEnglish");
+		Property latin = model.createProperty(ns + "latin");
+		Property children = model.createProperty(ns + "children");
+
 		for (Entry entry : entries) {
 			Resource dict = model.createResource(ns + "dictionary");
-			Property hasLemma = model.createProperty(ns + "hasMember");
-			Resource lemma = model.createResource(ns + entry.lemma);
 
-			Statement s = model.createStatement(dict, hasLemma, lemma);
-			model.add(s);
+			Resource e = model.createResource(ns + entry.id);
+
+			e.addProperty(
+					title,
+					entry.lemma == null ? "" : StringEscapeUtils
+							.escapeXml(entry.lemma));
+			if (entry.greece != null) {
+				e.addProperty(greece, StringEscapeUtils.escapeXml(entry.greece));
+			}
+			if (entry.oldEnglish != null) {
+				e.addProperty(oldEnglish,
+						StringEscapeUtils.escapeXml(entry.oldEnglish));
+			}
+			if (entry.latin != null) {
+				e.addProperty(latin, StringEscapeUtils.escapeXml(entry.latin));
+			}
+
+			if (entry.parentId != null) {
+				e.addProperty(children, model.createResource(ns + entry.id));
+			}
+
+			if (false && entry.parentId != null) {
+				Property childOf = model.createProperty(ns + "childOf");
+				Resource child = model.createResource(ns + entry.id);
+				Resource parentLemma = model
+						.createResource(ns + entry.parentId);
+				model.add(model.createStatement(child, childOf, parentLemma));
+			}
+
+			model.add(model.createStatement(dict, hasLemma, e));
 		}
-		
+
 		return model;
 	}
 
