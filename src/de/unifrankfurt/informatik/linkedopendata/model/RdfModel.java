@@ -22,6 +22,7 @@ public class RdfModel {
 
 	public Model generate() {
 		Model model = ModelFactory.createDefaultModel();
+		model.setNsPrefix("g", ns);
 
 		for (Entry entry : entries) {
 			Resource dict = model.createResource(ns + "dictionary");
