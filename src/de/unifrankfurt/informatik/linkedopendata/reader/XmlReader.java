@@ -15,7 +15,7 @@ public class XmlReader {
 	
 	private org.w3c.dom.Document doc;
 
-	public XmlReader(String fileName) throws ParserConfigurationException, SAXException, IOException {
+	public XmlReader(final String fileName) throws ParserConfigurationException, SAXException, IOException {
 		File fXmlFile = new File(fileName);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

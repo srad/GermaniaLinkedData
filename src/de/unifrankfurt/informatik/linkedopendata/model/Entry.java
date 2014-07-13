@@ -19,11 +19,11 @@ public class Entry {
 				+ ", Description: " + description;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = formatId(id);
 	}
 
-	public void setLatin(String latin) {
+	public void setLatin(final String latin) {
 		// Remove prefix "... lat."
 		this.latin = latin.replaceFirst("lat.", "").replaceFirst(".", "")
 				.replaceFirst("-", "").trim();
@@ -36,11 +36,11 @@ public class Entry {
 	 * @param id
 	 * @return
 	 */
-	private String formatId(String id) {
+	private String formatId(final String id) {
 		return id.replaceFirst("b[0]+", "");
 	}
 
-	public void setParentId(String parentId) {
+	public void setParentId(final String parentId) {
 		if (parentId.trim().equals("")) {
 			this.parentId = null;
 		} else {
