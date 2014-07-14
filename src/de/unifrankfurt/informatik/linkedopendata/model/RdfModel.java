@@ -16,7 +16,7 @@ import de.unifrankfurt.informatik.linkedopendata.reader.Entries;
 public class RdfModel {
 
 	private Entries entries;
-	private final static String ns = "http://informatik.uni-frankfurt/germania/";
+	public final static String ns = "http://informatik.uni-frankfurt/germania/";
 
 	public RdfModel(final Entries entries) {
 		this.entries = entries;
@@ -27,19 +27,19 @@ public class RdfModel {
 		model.setNsPrefix("g", ns);
 
 		Property hasLemma = model.createProperty(ns + "hasMember");
-		Property title = model.createProperty(ns + "lemma");
+		Property lemma = model.createProperty(ns + "lemma");
 		Property greece = model.createProperty(ns + "greece");
 		Property oldEnglish = model.createProperty(ns + "oldEnglish");
 		Property latin = model.createProperty(ns + "latin");
 		Property children = model.createProperty(ns + "children");
 
 		for (Entry entry : entries) {
-			Resource dict = model.createResource(ns + "dictionary");
-
-			Resource e = model.createResource(ns + entry.id);
+			Resource dict = model.createResource(ns + "dict");
+			Resource e = model.createResource(ns + "entry");
+			//Resource e = model.createResource(ns + "");
 
 			e.addProperty(
-					title,
+					lemma,
 					entry.lemma == null ? "" : StringEscapeUtils
 							.escapeXml(entry.lemma));
 			if (entry.greece != null) {
