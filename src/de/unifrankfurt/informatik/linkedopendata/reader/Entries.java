@@ -17,7 +17,8 @@ public class Entries extends ArrayList<Entry> {
 
 	private static final long serialVersionUID = 745978852286521518L;
 
-	public Entries(final String fileName) throws ParserConfigurationException, SAXException, IOException {
+	public Entries(final String fileName) throws ParserConfigurationException,
+			SAXException, IOException {
 		XmlReader reader = new XmlReader(fileName);
 		NodeList entries = reader.getTag("entry");
 		Entry lastParent = null;
@@ -53,18 +54,14 @@ public class Entries extends ArrayList<Entry> {
 								.unescapeHtml(oldEnglish);
 						break;
 					default:
-						System.err.println("Unbekannter Knoten: "
+						System.err.println("Ignorierter XML-Knoten: "
 								+ childNode.getNodeName());
 						break;
 					}
 					break;
 				case Node.TEXT_NODE:
 					String text = childNode.getTextContent();
-					if (text.indexOf("lat.") != -1) {
-						entry.setLatin(text);
-					} else {
-						entry.description = StringEscapeUtils.unescapeHtml(text);
-					}
+					entry.setDescription(StringEscapeUtils.unescapeHtml(text));
 					break;
 				default:
 					System.err.println("Ignorierter Knoten: "

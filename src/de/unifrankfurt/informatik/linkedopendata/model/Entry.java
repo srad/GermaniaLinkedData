@@ -1,10 +1,14 @@
 package de.unifrankfurt.informatik.linkedopendata.model;
 
+import java.util.HashMap;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
-import com.hp.hpl.jena.sparql.util.StringUtils;
-
 public class Entry {
+
+	public enum abbreviationType {
+		ABBREVIATION, RAWTEXT
+	};
 
 	public String htmlId;
 	public String id;
@@ -13,6 +17,7 @@ public class Entry {
 	public String greece;
 	public String oldEnglish;
 	public String description;
+	public HashMap<abbreviationType, Abbreviation<String>> descriptionMetaData = new HashMap<abbreviationType, Abbreviation<String>>();
 	public String latin;
 	public Children children = new Children();
 
@@ -27,12 +32,6 @@ public class Entry {
 	public void setId(final String id) {
 		this.id = formatId(id);
 		this.htmlId = StringEscapeUtils.escapeHtml(this.id);
-	}
-
-	public void setLatin(final String latin) {
-		// Remove prefix "... lat."
-		this.latin = latin.replaceFirst("lat.", "").replaceFirst(".", "")
-				.replaceFirst("-", "").trim();
 	}
 
 	/**
@@ -54,4 +53,22 @@ public class Entry {
 		}
 	}
 
+	public void setDescription(final String text) {
+		HashMap<String, String> foundAbbreviations = new Abbreviations(text).parse();
+
+		if (foundAbbreviations.size() == 0) {
+			this.descriptionMetaData.put(abbreviationType.RAWTEXT, new Abbreviation<String>("raw", text));
+		} else {
+			for (java.util.Map.Entry<String, String> entry : foundAbbreviations.entrySet()) {
+				this.descriptionMetaData.put(abbreviationType.ABBREVIATION, new Abbreviation<String>(entry.getKey(), entry.getValue()));
+			}
+		}
+
+		// From 0 to ";|\n" is the main description
+		int separatorIndex = text.indexOf(";");
+		if (separatorIndex == -1) {
+			separatorIndex = text.length() - 1;
+		}
+		this.description = text.substring(0, separatorIndex);
+	}
 }
