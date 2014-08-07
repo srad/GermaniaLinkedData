@@ -1,16 +1,16 @@
 package de.unifrankfurt.informatik.linkedopendata.model;
 
-public class Match<K, V> {
-	public K key;
-	public V value;
+public class Match {
+    final public Tag tag;
+    final public String text;
 
-	public Match(K key, V value) {
-		this.key = key;
-		this.value = value;
-	}
+    public Match(Tag tag, String text) {
+        this.tag = tag;
+        this.text = text;
+    }
 
-	@Override
-	public String toString() {
-		return "(" + this.key + ", " + this.value + ")";
-	}
+    @Override
+    public String toString() {
+        return "Match(" + tag + ", \"" + text + "\")";
+    }
 }

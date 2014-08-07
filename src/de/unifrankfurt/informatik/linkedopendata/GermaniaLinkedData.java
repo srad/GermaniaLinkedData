@@ -1,31 +1,24 @@
 package de.unifrankfurt.informatik.linkedopendata;
 
 import java.io.IOException;
-
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import com.hp.hpl.jena.rdf.model.Model;
-
 import de.unifrankfurt.informatik.linkedopendata.model.RdfModel;
 import de.unifrankfurt.informatik.linkedopendata.reader.Entries;
-import de.unifrankfurt.informatik.linkedopendata.writer.LemonRdfWriter;
-import de.unifrankfurt.informatik.linkedopendata.writer.RdfWriter;
-import de.unifrankfurt.informatik.linkedopendata.writer.SchemaWriter;
 
 public class GermaniaLinkedData {
 
-	public static void main(String[] args) {
-		try {
-			final Entries entries = new Entries("data/pgmc_v1_5.xml");
-			//RdfModel rdf = new RdfModel(entries);
-			//RdfWriter r = new RdfWriter(rdf.generate());
-			final LemonRdfWriter l = new LemonRdfWriter(entries);
-			l.write();			
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
-		}
-	}
+    public static void main(String[] args) {
+        try {
+            Entries entries = new Entries("data/pgmc_v1_5.xml");
+            final RdfModel rdf = new RdfModel(entries);
+            rdf.writeEntriesDataStructureToFile("data/entries.txt");
+            rdf.write("data/germania.rdf");
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

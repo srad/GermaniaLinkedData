@@ -15,76 +15,72 @@ import de.unifrankfurt.informatik.linkedopendata.model.Entry;
 
 public class Entries extends ArrayList<Entry> {
 
-	private static final long serialVersionUID = 745978852286521518L;
+    private static final long serialVersionUID = 745978852286521518L;
 
-	public Entries(final String fileName) throws ParserConfigurationException,
-			SAXException, IOException {
-		XmlReader reader = new XmlReader(fileName);
-		NodeList entries = reader.getTag("entry");
-		Entry lastParent = null;
+    public Entries(final String fileName) throws ParserConfigurationException, SAXException, IOException {
+        XmlReader reader = new XmlReader(fileName);
+        NodeList entries = reader.getTag("entry");
+        Entry lastParent = null;
 
-		for (int i = 0; i < entries.getLength(); i++) {
-			Node node = entries.item(i);
-			NodeList children = node.getChildNodes();
-			Entry entry = new Entry();
-			NamedNodeMap attr = node.getAttributes();
+        for (int i = 0; i < entries.getLength(); i++) {
+            Node node = entries.item(i);
+            NodeList children = node.getChildNodes();
+            Entry entry = new Entry();
+            NamedNodeMap attr = node.getAttributes();
 
-			entry.setId(attr.getNamedItem("id").getNodeValue());
-			entry.setParentId(attr.getNamedItem("parent").getNodeValue());
+            entry.setId(attr.getNamedItem("id").getNodeValue());
+            entry.setParentId(attr.getNamedItem("parent").getNodeValue());
 
-			for (int j = 0; j < children.getLength(); j++) {
-				Node childNode = children.item(j);
+            for (int j = 0; j < children.getLength(); j++) {
+                Node childNode = children.item(j);
 
-				switch (childNode.getNodeType()) {
-				case Node.ELEMENT_NODE:
-					String nodeName = childNode.getNodeName();
-					switch (nodeName.toLowerCase()) {
-					case "lm":
-						String lemma = childNode.getTextContent();
-						entry.lemma = lemma;
-						break;
-					case "gr":
-						String greece = childNode.getChildNodes().item(0)
-								.getTextContent();
-						entry.greece = StringEscapeUtils.unescapeXml(greece);
-						break;
-					case "oe":
-						String oldEnglish = childNode.getTextContent();
-						entry.oldEnglish = StringEscapeUtils
-								.unescapeHtml(oldEnglish);
-						break;
-					default:
-						System.err.println("Ignorierter XML-Knoten: "
-								+ childNode.getNodeName());
-						break;
-					}
-					break;
-				case Node.TEXT_NODE:
-					String text = childNode.getTextContent();
-					entry.setDescription(StringEscapeUtils.unescapeHtml(text));
-					break;
-				default:
-					System.err.println("Ignorierter Knoten: "
-							+ childNode.getNodeName());
-					break;
-				}
-			}
-			if (lastParent == null || entry.parentId == null) {
-				lastParent = entry;
-			} else if (entry.parentId.equals(lastParent.id)) {
-				lastParent.children.add(entry);
-			}
-			this.add(entry);
-		}
-	}
+                switch (childNode.getNodeType()) {
+                case Node.ELEMENT_NODE:
+                    String nodeName = childNode.getNodeName();
+                    switch (nodeName.toLowerCase()) {
+                    case "lm":
+                        entry.setLemma(childNode.getTextContent());
+                        break;
+                    case "gr":
+                        String greek = childNode.getChildNodes().item(0).getTextContent();
+                        entry.setGreek(StringEscapeUtils.unescapeXml(greek));
+                        break;
+                    case "oe":
+                        String oldEnglish = childNode.getTextContent();
+                        entry.setOldEnglish(StringEscapeUtils.unescapeHtml(oldEnglish));
+                        break;
+                    default:
+                        // System.err.println("Ignorierter XML-Knoten: " +
+                        // childNode.getNodeName());
+                        break;
+                    }
+                    break;
+                case Node.TEXT_NODE:
+                    String text = childNode.getTextContent();
+                    entry.setDescription(StringEscapeUtils.unescapeHtml(text));
+                    break;
+                default:
+                    // System.err.println("Ignorierter Knoten: " +
+                    // childNode.getNodeName());
+                    break;
+                }
+            }
+            if (lastParent == null || entry.parentId == null) {
+                lastParent = entry;
+            } else if (entry.parentId.equals(lastParent.id)) {
+                lastParent.children.add(entry);
+            }
+            this.add(entry);
+        }
+    }
 
-	@Override
-	public String toString() {
-		String s = "";
+    @Override
+    public String toString() {
+        String s = "";
 
-		for (Entry entry : this) {
-			s += entry.toString() + "\n";
-		}
-		return s;
-	}
+        for (Entry entry : this) {
+            s += entry.toString() + "\n";
+        }
+        return s;
+    }
 }

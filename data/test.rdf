@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:lemon="http://www.monnet-project.eu/lemon#">
+  <lemon:Lexicon rdf:about="http://informatik.uni-frankfurt.de/Germania" lemon:language="de">
+    <lemon:entry>
+      <lemon:LexicalEntry rdf:about="http://informatik.uni-frankfurt.de/Germania/Wurst">
+        <lemon:form>
+          <lemon:canonicalForm rdf:about="http://informatik.uni-frankfurt.de/Germania/Wurst/canonicalForm">
+            <lemon:writtenRep xml:lang="de">wurst</lemon:writtenRep>
+            <lemon:writtenRep xml:lang="en">sausage</lemon:writtenRep>
+            <lemon:writtenRep xml:lang="lat">wurstus</lemon:writtenRep>
+          </lemon:canonicalForm>
+        </lemon:form>
+        <lemon:sense>
+          <lemon:LexicalSense rdf:about="http://informatik.uni-frankfurt.de/Germania#Wurst/sense">
+            <lemon:reference rdf:resource="http://dbpedia.org/resource/Cat"/>
+          </lemon:LexicalSense>
+        </lemon:sense>
+      </lemon:LexicalEntry>
+    </lemon:entry>
+    <lemon:entry>
+      <lemon:LexicalEntry rdf:about="http://informatik.uni-frankfurt.de/Germania/orange">
+        <lemon:form>
+          <lemon:canonicalForm rdf:about="http://informatik.uni-frankfurt.de/Germania/orange/canonicalForm">
+            <lemon:writtenRep xml:lang="de">orange</lemon:writtenRep>
+            <lemon:writtenRep xml:lang="lat">orangus</lemon:writtenRep>
+          </lemon:canonicalForm>
+        </lemon:form>
+        <lemon:sense>
+          <lemon:LexicalSense rdf:about="http://informatik.uni-frankfurt.de/Germania#orange/sense">
+            <lemon:reference rdf:resource="http://dbpedia.org/resource/Cat"/>
+          </lemon:LexicalSense>
+        </lemon:sense>
+      </lemon:LexicalEntry>
+    </lemon:entry>
+  </lemon:Lexicon>
+</rdf:RDF>
