@@ -3,7 +3,12 @@ GermaniaLinkedData
 
 This project is part of a practical course at the university to transform an old germanic, unstructured dictionary into the lemon RDF standard to link it with other dictionaries.
 
-This project is under MIT License, for details about the original data that has been transformed please look at: http://lexicon.ff.cuni.cz/
+License
+=======
+
+For details, about the original data license please look at: http://lexicon.ff.cuni.cz/
+
+All other source files and generated data are under the MIT license:
 
 The MIT License (MIT)
 
